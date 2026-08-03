@@ -28,9 +28,7 @@
   html,body{height:100%;}
   body{
     font-family:'Inter', sans-serif;
-    background:
-      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(143,191,159,0.18), transparent 60%),
-      linear-gradient(180deg, var(--verde-oscuro) 0%, #0a2b20 55%, #081f18 100%);
+    background: linear-gradient(180deg, var(--verde-oscuro) 0%, #0a2b20 55%, #081f18 100%);
     color:var(--crema);
     min-height:100%;
     -webkit-font-smoothing:antialiased;
@@ -38,7 +36,6 @@
   a{color:inherit; text-decoration:none;}
   button{font-family:inherit; border:none; background:none; cursor:pointer; color:inherit;}
 
-  /* ---------- Header ---------- */
   header{
     display:flex; align-items:center; justify-content:space-between;
     padding:22px clamp(20px,5vw,64px);
@@ -67,7 +64,6 @@
   }
   @media(min-width:700px){ .fecha-header{display:block;} }
 
-  /* ---------- Hero ---------- */
   .hero{
     position:relative; overflow:hidden;
     padding:clamp(56px,10vw,96px) clamp(20px,6vw,64px) clamp(48px,7vw,72px);
@@ -102,7 +98,6 @@
     font-size:clamp(14px,1.7vw,16px); color:var(--verde-brillo); line-height:1.6;
   }
 
-  /* ---------- Sectores ---------- */
   main{
     max-width:920px; margin:0 auto;
     padding:0 clamp(16px,5vw,32px) 80px;
@@ -186,6 +181,24 @@
     background:rgba(92,138,108,0.25); padding:3px 8px; border-radius:20px; flex-shrink:0;
   }
 
+  .enlace.buscador{
+    flex-direction:column; align-items:stretch; gap:8px; grid-column:1 / -1;
+  }
+  .enlace.buscador .txt{ padding-left:19px; }
+  .input-codigo{
+    width:100%;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:14px;
+    color:var(--crema);
+    background:rgba(12,53,39,0.55);
+    border:1px solid rgba(232,196,104,0.3);
+    border-radius:8px;
+    padding:10px 12px;
+    outline:none;
+  }
+  .input-codigo:focus{ border-color:var(--dorado-claro); }
+  .input-codigo::placeholder{ color:rgba(244,239,226,0.4); }
+
   footer{
     text-align:center; padding:28px 20px 40px;
     font-size:11.5px; color:rgba(244,239,226,0.35);
@@ -265,9 +278,10 @@ const data = [
   },
   {
     id: "calidad",
-    titulo: "Calidad Proceso",
+    titulo: "Sector de Calidad",
     icono: iconos.calidad,
     enlaces: [
+      { texto: "Ficha Técnica", tipo: "buscador" },
       { texto: "Performance", url: null }
     ]
   }
@@ -294,6 +308,13 @@ data.forEach((sector, i) => {
     </summary>
     <div class="sector-cuerpo">
       ${sector.enlaces.map(en => {
+        if (en.tipo === "buscador") {
+          return `<div class="enlace buscador">
+            <span class="punto"></span>
+            <span class="txt">${en.texto}</span>
+            <input type="text" class="input-codigo" placeholder="Código de producto + Enter" autocomplete="off">
+          </div>`;
+        }
         if (en.url) {
           return `<a class="enlace" href="${en.url}" target="_blank" rel="noopener">
             <span class="punto"></span><span class="txt">${en.texto}</span>
@@ -307,6 +328,16 @@ data.forEach((sector, i) => {
     </div>
   `;
   cont.appendChild(det);
+});
+
+document.querySelectorAll(".input-codigo").forEach(input => {
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const codigo = input.value.trim();
+      if (!codigo) return;
+      window.open("https://mchacon-hub.github.io/worknet-landing/?producto=" + encodeURIComponent(codigo), "_blank");
+    }
+  });
 });
 
 const fecha = new Date();
