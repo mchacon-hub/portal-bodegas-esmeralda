@@ -204,6 +204,41 @@
     font-size:11.5px; color:rgba(244,239,226,0.35);
     letter-spacing:0.04em;
   }
+
+  .overlay-ficha{
+    position:fixed; inset:0; z-index:999;
+    background:rgba(8,20,15,0.82);
+    display:none; align-items:center; justify-content:center;
+    padding:20px;
+  }
+  .overlay-ficha.activo{ display:flex; }
+  .overlay-caja{
+    background:linear-gradient(180deg, var(--verde-botella), var(--verde-oscuro));
+    border:1px solid rgba(232,196,104,0.4);
+    border-radius:16px;
+    padding:36px 40px;
+    text-align:center;
+    box-shadow:0 24px 60px -20px rgba(0,0,0,0.7);
+    max-width:360px;
+  }
+  .overlay-spinner{
+    width:40px; height:40px; margin:0 auto 20px;
+    border:3px solid rgba(232,196,104,0.25);
+    border-top-color:var(--dorado-claro);
+    border-radius:50%;
+    animation:girar 0.9s linear infinite;
+  }
+  @keyframes girar{ to{ transform:rotate(360deg); } }
+  .overlay-titulo{
+    font-family:'Fraunces',serif; font-weight:600; font-size:20px;
+    letter-spacing:0.02em; color:var(--crema); text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .overlay-codigo{
+    font-family:'IBM Plex Mono', monospace; font-size:15px;
+    color:var(--dorado-claro); background:rgba(0,0,0,0.25);
+    display:inline-block; padding:6px 14px; border-radius:8px;
+  }
 </style>
 </head>
 <body>
@@ -247,6 +282,14 @@
 <main id="sectores"></main>
 
 <footer>Bodegas Esmeralda · Uso interno · Vista Flores, Tunuyán</footer>
+
+<div class="overlay-ficha" id="overlay-ficha">
+  <div class="overlay-caja">
+    <div class="overlay-spinner"></div>
+    <div class="overlay-titulo">Abriendo ficha</div>
+    <div class="overlay-codigo" id="overlay-codigo"></div>
+  </div>
+</div>
 
 <script>
 const iconos = {
@@ -335,7 +378,23 @@ document.querySelectorAll(".input-codigo").forEach(input => {
     if (e.key === "Enter") {
       const codigo = input.value.trim();
       if (!codigo) return;
-      window.open("https://mchacon-hub.github.io/worknet-landing/?producto=" + encodeURIComponent(codigo), "_blank");
+
+      const overlay = document.getElementById("overlay-ficha");
+      const overlayCodigo = document.getElementById("overlay-codigo");
+      overlayCodigo.textContent = codigo;
+      overlay.classList.add("activo");
+
+      const iframe = document.createElement("iframe");
+      iframe.style.display = "none";
+      iframe.src = "https://mchacon-hub.github.io/worknet-landing/?producto=" + encodeURIComponent(codigo);
+      document.body.appendChild(iframe);
+
+      setTimeout(() => {
+        overlay.classList.remove("activo");
+        iframe.remove();
+      }, 6000);
+
+      input.value = "";
     }
   });
 });
