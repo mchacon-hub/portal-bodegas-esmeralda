@@ -36,6 +36,7 @@
   a{color:inherit; text-decoration:none;}
   button{font-family:inherit; border:none; background:none; cursor:pointer; color:inherit;}
 
+  /* ---------- Header ---------- */
   header{
     display:flex; align-items:center; justify-content:space-between;
     padding:22px clamp(20px,5vw,64px);
@@ -64,6 +65,7 @@
   }
   @media(min-width:700px){ .fecha-header{display:block;} }
 
+  /* ---------- Hero ---------- */
   .hero{
     position:relative; overflow:hidden;
     padding:clamp(56px,10vw,96px) clamp(20px,6vw,64px) clamp(48px,7vw,72px);
@@ -98,6 +100,7 @@
     font-size:clamp(14px,1.7vw,16px); color:var(--verde-brillo); line-height:1.6;
   }
 
+  /* ---------- Sectores ---------- */
   main{
     max-width:920px; margin:0 auto;
     padding:0 clamp(16px,5vw,32px) 80px;
@@ -315,8 +318,8 @@ const data = [
     icono: iconos.insumos,
     enlaces: [
       { texto: "Stock de Insumos por Sistema", tipo: "accion", protocolo: "stockproducto://" },
+      { texto: "Pendientes de Entregas VF", tipo: "accion", protocolo: "pendientesoc://" },
       { texto: "Stock de Insumos Excel", url: null },
-      { texto: "Pendientes de Entregas VF", url: null },
       { texto: "Análisis de Necesidad de Compra", url: null },
       { texto: "Consulta de OC", url: null }
     ]
@@ -417,7 +420,7 @@ document.querySelectorAll(".input-codigo").forEach(input => {
 
       setTimeout(() => {
         overlay.classList.remove("activo");
-      }, 10000);
+      }, 12000);
 
       input.value = "";
     }
