@@ -384,15 +384,11 @@ document.querySelectorAll(".input-codigo").forEach(input => {
       overlayCodigo.textContent = codigo;
       overlay.classList.add("activo");
 
-      const iframe = document.createElement("iframe");
-      iframe.style.display = "none";
-      iframe.src = "https://mchacon-hub.github.io/worknet-landing/?producto=" + encodeURIComponent(codigo);
-      document.body.appendChild(iframe);
+      window.location.href = "worknetficha://" + encodeURIComponent(codigo);
 
       setTimeout(() => {
         overlay.classList.remove("activo");
-        iframe.remove();
-      }, 6000);
+      }, 8000);
 
       input.value = "";
     }
