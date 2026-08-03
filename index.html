@@ -181,6 +181,8 @@
     background:rgba(92,138,108,0.25); padding:3px 8px; border-radius:20px; flex-shrink:0;
   }
 
+  .enlace.accion{ cursor:pointer; }
+
   .enlace.buscador{
     flex-direction:column; align-items:stretch; gap:8px; grid-column:1 / -1;
   }
@@ -286,7 +288,7 @@
 <div class="overlay-ficha" id="overlay-ficha">
   <div class="overlay-caja">
     <div class="overlay-spinner"></div>
-    <div class="overlay-titulo">Abriendo ficha</div>
+    <div class="overlay-titulo" id="overlay-titulo">Abriendo</div>
     <div class="overlay-codigo" id="overlay-codigo"></div>
   </div>
 </div>
@@ -312,7 +314,7 @@ const data = [
     titulo: "Sector Insumos",
     icono: iconos.insumos,
     enlaces: [
-      { texto: "Stock de Insumos por Sistema", url: null },
+      { texto: "Stock de Insumos por Sistema", tipo: "accion", protocolo: "stockproducto://" },
       { texto: "Stock de Insumos Excel", url: null },
       { texto: "Pendientes de Entregas VF", url: null },
       { texto: "Análisis de Necesidad de Compra", url: null },
@@ -351,6 +353,11 @@ data.forEach((sector, i) => {
     </summary>
     <div class="sector-cuerpo">
       ${sector.enlaces.map(en => {
+        if (en.tipo === "accion") {
+          return `<div class="enlace accion" data-protocolo="${en.protocolo}" data-texto="${en.texto}">
+            <span class="punto"></span><span class="txt">${en.texto}</span>
+          </div>`;
+        }
         if (en.tipo === "buscador") {
           return `<div class="enlace buscador">
             <span class="punto"></span>
@@ -373,6 +380,26 @@ data.forEach((sector, i) => {
   cont.appendChild(det);
 });
 
+document.querySelectorAll(".enlace.accion").forEach(el => {
+  el.addEventListener("click", () => {
+    const protocolo = el.dataset.protocolo;
+    const texto = el.dataset.texto;
+
+    const overlay = document.getElementById("overlay-ficha");
+    const overlayTitulo = document.getElementById("overlay-titulo");
+    const overlayCodigo = document.getElementById("overlay-codigo");
+    overlayTitulo.textContent = "Abriendo";
+    overlayCodigo.textContent = texto;
+    overlay.classList.add("activo");
+
+    window.location.href = protocolo;
+
+    setTimeout(() => {
+      overlay.classList.remove("activo");
+    }, 10000);
+  });
+});
+
 document.querySelectorAll(".input-codigo").forEach(input => {
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
@@ -380,7 +407,9 @@ document.querySelectorAll(".input-codigo").forEach(input => {
       if (!codigo) return;
 
       const overlay = document.getElementById("overlay-ficha");
+      const overlayTitulo = document.getElementById("overlay-titulo");
       const overlayCodigo = document.getElementById("overlay-codigo");
+      overlayTitulo.textContent = "Abriendo ficha";
       overlayCodigo.textContent = codigo;
       overlay.classList.add("activo");
 
@@ -388,7 +417,7 @@ document.querySelectorAll(".input-codigo").forEach(input => {
 
       setTimeout(() => {
         overlay.classList.remove("activo");
-      }, 12000);
+      }, 10000);
 
       input.value = "";
     }
