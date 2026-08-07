@@ -36,7 +36,6 @@
   a{color:inherit; text-decoration:none;}
   button{font-family:inherit; border:none; background:none; cursor:pointer; color:inherit;}
 
-  /* ---------- Header ---------- */
   header{
     display:flex; align-items:center; justify-content:space-between;
     padding:22px clamp(20px,5vw,64px);
@@ -65,7 +64,6 @@
   }
   @media(min-width:700px){ .fecha-header{display:block;} }
 
-  /* ---------- Hero ---------- */
   .hero{
     position:relative; overflow:hidden;
     padding:clamp(56px,10vw,96px) clamp(20px,6vw,64px) clamp(48px,7vw,72px);
@@ -100,7 +98,6 @@
     font-size:clamp(14px,1.7vw,16px); color:var(--verde-brillo); line-height:1.6;
   }
 
-  /* ---------- Sectores ---------- */
   main{
     max-width:920px; margin:0 auto;
     padding:0 clamp(16px,5vw,32px) 80px;
@@ -303,6 +300,10 @@ const iconos = {
   calidad: `<svg viewBox="0 0 24 24" fill="none" stroke="#e8c468" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6v4l4 8a2 2 0 0 1-1.8 3H6.8A2 2 0 0 1 5 15l4-8V3z"/><path d="M8 14h8"/></svg>`
 };
 
+const ID_EXCEL_STOCK = "PENDIENTE_ID_STOCK";
+const ID_EXCEL_PENDIENTES = "PENDIENTE_ID_PENDIENTES";
+const ID_EXCEL_NECESIDAD = "PENDIENTE_ID_NECESIDAD";
+
 const data = [
   {
     id: "produccion",
@@ -319,8 +320,10 @@ const data = [
     enlaces: [
       { texto: "Stock de Insumos por Sistema", tipo: "accion", protocolo: "stockproducto://" },
       { texto: "Pendientes de Entregas VF", tipo: "accion", protocolo: "pendientesoc://" },
-      { texto: "Stock de Insumos Excel", url: null },
-      { texto: "Análisis de Necesidad de Compra", url: null },
+      { texto: "Stock VF6 + VC9 Flash", url: "https://drive.google.com/uc?export=download&id=" + ID_EXCEL_STOCK },
+      { texto: "Pendientes de Entrega Flash", url: "https://drive.google.com/uc?export=download&id=" + ID_EXCEL_PENDIENTES },
+      { texto: "Necesidad de Compra", url: "https://drive.google.com/uc?export=download&id=" + ID_EXCEL_NECESIDAD },
+      { texto: "Solicitud de Compra", url: null },
       { texto: "Consulta de OC", url: null }
     ]
   },
