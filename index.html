@@ -36,6 +36,7 @@
   a{color:inherit; text-decoration:none;}
   button{font-family:inherit; border:none; background:none; cursor:pointer; color:inherit;}
 
+  /* ---------- Header ---------- */
   header{
     display:flex; align-items:center; justify-content:space-between;
     padding:22px clamp(20px,5vw,64px);
@@ -64,6 +65,7 @@
   }
   @media(min-width:700px){ .fecha-header{display:block;} }
 
+  /* ---------- Hero ---------- */
   .hero{
     position:relative; overflow:hidden;
     padding:clamp(56px,10vw,96px) clamp(20px,6vw,64px) clamp(48px,7vw,72px);
@@ -98,6 +100,7 @@
     font-size:clamp(14px,1.7vw,16px); color:var(--verde-brillo); line-height:1.6;
   }
 
+  /* ---------- Sectores ---------- */
   main{
     max-width:920px; margin:0 auto;
     padding:0 clamp(16px,5vw,32px) 80px;
@@ -300,9 +303,29 @@ const iconos = {
   calidad: `<svg viewBox="0 0 24 24" fill="none" stroke="#e8c468" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6v4l4 8a2 2 0 0 1-1.8 3H6.8A2 2 0 0 1 5 15l4-8V3z"/><path d="M8 14h8"/></svg>`
 };
 
+/* =====================================================================
+   IDs DE LOS 3 ARCHIVOS "FLASH" (.xlsx generados por Apps Script)
+   ---------------------------------------------------------------------
+   Corré actualizarNecesidadDeCompra() una vez en el editor de Apps
+   Script. Al final del log vas a ver algo como:
+
+     stock_vf6_vc9.xlsx -> https://drive.google.com/uc?export=download&id=XXXXXXXXXXXX
+     pendientes_entrega.xlsx -> https://drive.google.com/uc?export=download&id=YYYYYYYYYYYY
+     necesidad_compra.xlsx -> https://drive.google.com/uc?export=download&id=ZZZZZZZZZZZZ
+
+   Copiá cada ID (la parte despues de "id=") y pegalo abajo, reemplazando
+   los tres "PENDIENTE_ID_...". Después de la primera vez no hay que
+   tocar esto de nuevo: el contenido se actualiza solo todos los días,
+   el ID del archivo no cambia.
+===================================================================== */
 const ID_EXCEL_STOCK = "1Be0LAlmzwxFenXLhkr1_QvUG0TBQXlLd";
 const ID_EXCEL_PENDIENTES = "1rEYkyso-e1iAHdmB3_1LAXVl23UEHu1p";
-const ID_EXCEL_NECESIDAD = "1pQfhH2j2wWozyEt7xmHmM9FjP9DHwtdp";
+// "Necesidad de Compra" ya no usa un archivo fijo de Drive: apunta a
+// la Web App de Apps Script, que genera el Excel al instante con los
+// datos actuales de "RESUMEN FINAL DE NECESIDAD DE COMPRA" cada vez
+// que se lo visita.
+const URL_WEBAPP_NECESIDAD_COMPRA =
+  "https://script.google.com/macros/s/AKfycbzF_fLUeM8nA9_DHqhVvbk6fGQsjvGlmqhdyVyu5S0rc1t2d2Oku8Lqdsk3hIunx7NY/exec";
 
 const data = [
   {
@@ -322,7 +345,7 @@ const data = [
       { texto: "Pendientes de Entregas VF", tipo: "accion", protocolo: "pendientesoc://" },
       { texto: "Stock VFI + VC9 Flash", url: "https://drive.google.com/uc?export=download&id=" + ID_EXCEL_STOCK },
       { texto: "Pendientes de Entrega Flash", url: "https://drive.google.com/uc?export=download&id=" + ID_EXCEL_PENDIENTES },
-      { texto: "Necesidad de Compra", url: "https://drive.google.com/uc?export=download&id=" + ID_EXCEL_NECESIDAD },
+      { texto: "Necesidad de Compra", url: URL_WEBAPP_NECESIDAD_COMPRA },
       { texto: "Solicitud de Compra", url: null },
       { texto: "Consulta de OC", url: null }
     ]
