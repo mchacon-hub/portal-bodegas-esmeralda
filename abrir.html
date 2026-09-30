@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Abriendo…</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<style>
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+    font-family:Inter,Segoe UI,Arial,sans-serif;background:#0c3527;color:#f4efe2;text-align:center;padding:20px}
+  .caja{border:1px solid rgba(232,196,104,.4);border-radius:16px;padding:32px 36px;max-width:420px}
+  h1{font-size:20px;margin:0 0 10px;text-transform:uppercase;letter-spacing:.03em}
+  p{color:#8fbf9f;font-size:14px;line-height:1.5;margin:8px 0 0}
+</style>
+</head>
+<body>
+<div class="caja">
+  <h1 id="titulo">Abriendo…</h1>
+  <p id="detalle"></p>
+</div>
+<script>
+// Página puente: Blue Ship (u otro sistema interno) abre un acceso de Worknet en ESTA PC.
+// Solo se aceptan los accesos de la lista; cualquier otro valor se ignora.
+(function () {
+  var ACCESOS = {
+    stockproducto: { protocolo: 'stockproducto://', nombre: 'Stock de insumos por sistema' },
+    pendientesoc: { protocolo: 'pendientesoc://', nombre: 'Pendientes de entregas VF' }
+  };
+  var clave = new URLSearchParams(location.search).get('accion') || '';
+  var a = ACCESOS[clave];
+  if (!a) {
+    document.getElementById('titulo').textContent = 'Acceso no reconocido';
+    document.getElementById('detalle').textContent = 'Volvé al portal y elegí el acceso desde ahí.';
+    return;
+  }
+  document.getElementById('titulo').textContent = 'Abriendo ' + a.nombre;
+  document.getElementById('detalle').textContent = 'Worknet se abre en esta PC con tu usuario. Si no pasa nada, la PC no tiene configurados los accesos: correr "BLUE SHIP - CONFIGURAR EQUIPO".';
+  window.location.href = a.protocolo;
+})();
+</script>
+</body>
+</html>
