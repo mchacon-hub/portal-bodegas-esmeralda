@@ -143,18 +143,16 @@
       <input id="q" type="search" placeholder="Código de producto, OP, pedido o nombre del producto" autocomplete="off">
       <button class="btn" data-accion="worknet" title="Abre la ficha en Worknet en esta PC">Ficha Worknet</button>
       <button class="btn" data-accion="webinfo" title="Abre la ficha técnica en WebInfo">Ficha WebInfo</button>
-      <button class="btn azul" data-accion="blueship" title="Busca programado y producido en Blue Ship">Buscar en Blue Ship</button>
     </div>
-    <div class="ayuda">Ej.: <b>5971-25-247</b> (código) · <b>27096722</b> (OP) · <b>E00000048377</b> (pedido) · <b>ALAMOS</b> (producto). Enter = buscar en Blue Ship.</div>
+    <div class="ayuda">Escribí el código (ej. <b>5971-25-247</b>) y elegí <b>Ficha Worknet</b> o <b>Ficha WebInfo</b>. Enter = Ficha WebInfo.</div>
   </section>
 
   <section class="destacado entrar" aria-labelledby="t-bs" style="animation-delay:.08s">
     <div>
-      <h2 id="t-bs">⛴ Blue Ship <span class="prueba">PRUEBA</span></h2>
-      <p>Control de producción: qué se está produciendo ahora, cumplimiento del programa, tiempos muertos, stock de insumos y respuesta al plan de carga. Con tu cuenta @catenazapata.com.</p>
-      <a class="abrir" id="bs-abrir" target="_blank" rel="noopener">Abrir Blue Ship →</a>
+      <h2 id="t-bs">⛴ ¿Tenés cuenta @catenazapata.com?</h2>
+      <p>Usá el Portal completo, con Blue Ship (control de producción) y los permisos de tu usuario. Este Portal es para las cuentas de <b>@bodegasesmeralda.com.ar</b>.</p>
+      <a class="abrir" id="bs-abrir" target="_blank" rel="noopener">Abrir el Portal completo →</a>
     </div>
-    <nav class="rapidos" id="bs-rapidos" aria-label="Pantallas de Blue Ship"></nav>
   </section>
 
   <div id="sectores"></div>
@@ -162,11 +160,11 @@
   <details class="primera">
     <summary>¿Primera vez en esta PC? Cómo dejar todo funcionando</summary>
     <ol>
-      <li>Abrí la carpeta compartida <b>Blue Ship – Instalador</b> y hacé doble clic en <code>_INSTALADOR\INSTALAR BLUE SHIP</code> (no necesita administrador).</li>
-      <li>El instalador deja el <b>Portal</b> como aplicación en el escritorio, los botones de Worknet funcionando y la extensión de WebInfo lista para agregar a Chrome (te muestra cómo).</li>
-      <li>La primera vez que toques un acceso de <b>Worknet</b>, Chrome pregunta si abre AutoHotkey: marcá <b>“Permitir siempre”</b>. Después aparece la ventana <b>“Acceso a Worknet”</b>: poné <b>tu</b> usuario y contraseña (se guardan cifrados solo en esta PC).</li>
+      <li><b>Tenelo en el escritorio</b> con el ícono de BE: en Chrome, menú <b>⋮</b> → <b>Transmitir, guardar y compartir</b> → <b>Crear acceso directo…</b> → tildá <b>“Abrir como ventana”</b>.</li>
+      <li><b>Solo si vas a usar los botones de Worknet o la extensión de WebInfo:</b> agregá a tu Drive la carpeta compartida <b>BLUE SHIP - INSTALADOR</b>, abrila (<code>G:\Mi unidad\BLUE SHIP - INSTALADOR</code>) y hacé doble clic en <code>_INSTALADOR\INSTALAR PORTAL BODEGAS ESMERALDA</code>. Cuando pregunte por tu cuenta, respondé <b>No</b> (bodegasesmeralda).</li>
+      <li><b>Worknet</b>: la primera vez Chrome pregunta si abre AutoHotkey → <b>“Permitir siempre”</b>. Después, en la ventana <b>“Acceso a Worknet”</b>, poné <b>tu</b> usuario y contraseña (se guardan cifrados solo en esta PC).</li>
       <li><b>WebInfo</b>: la primera vez entrá con la contraseña genérica; la extensión la recuerda.</li>
-      <li><b>Blue Ship</b>: entrás con tu cuenta @catenazapata.com. Si no ves alguna sección, pedile a Planificación que te dé el rol.</li>
+      <li><b>Planillas</b> (Programa, Registro, Planificación, Paletizadores, Registro de Performance): se abren con tu cuenta de Google. Si dice que no tenés acceso, pedile a Marco que te la comparta.</li>
     </ol>
   </details>
 </main>
@@ -179,18 +177,15 @@
 
 <script>
 /* ====================== CONFIGURACIÓN: todos los accesos en un solo lugar ====================== */
-const VERSION = '2.0';
-const BLUE_SHIP = 'https://script.google.com/a/macros/catenazapata.com/s/AKfycbwh8uhH_q9kczzt6Y0QrrzZN4gyqlKj8BiiGDGryJ-ALlY8QML6B16Xq2FXVBDlL16naQ/exec';
+const VERSION = '2.1 · bodegasesmeralda';
+const PORTAL_COMPLETO = 'https://script.google.com/a/macros/catenazapata.com/s/AKfycbwh8uhH_q9kczzt6Y0QrrzZN4gyqlKj8BiiGDGryJ-ALlY8QML6B16Xq2FXVBDlL16naQ/exec?app=portal';
 const FICHA_WEBINFO = 'https://mchacon-hub.github.io/webinfo-landing/?producto=';
-const BLUE_SHIP_PANTALLAS = [
-  { vista: 'vivo', ico: '▶', txt: 'En vivo' }, { vista: 'tablero', ico: '📊', txt: 'Tablero' },
-  { vista: 'programa', ico: '🎯', txt: 'Cumplimiento' }, { vista: 'carga', ico: '🚚', txt: 'Plan de carga' },
-  { vista: 'tm', ico: '⏱', txt: 'Tiempos muertos' }, { vista: 'stock', ico: '📦', txt: 'Stock' },
-  { vista: 'indicadores', ico: '📈', txt: 'Indicadores' }, { vista: 'tv', ico: '📺', txt: 'Modo TV' }
-];
 const SECTORES = [
   { titulo: 'Producción', nota: 'planillas de Vista Flores', accesos: [
     { ico: '🏭', txt: 'Programa de Producción VF', desc: 'Programa semanal por línea', tipo: 'Planilla', url: 'https://docs.google.com/spreadsheets/d/1durpzTPpruCm2gdtbvjj5GjCk8m3asc6CZcjCKvQxsc/edit?gid=958232884#gid=958232884' },
+    { ico: '🗓', txt: 'Planificación 2026 VF', desc: 'Pedidos, fecha de fraccionado y de carga', tipo: 'Planilla', url: 'https://docs.google.com/spreadsheets/d/1Ok4IEWSJlno_RSlINaz2wmH01SA39KhneEUDtDPiuNU/edit?gid=781888664#gid=781888664' },
+    { ico: '📦', txt: 'Paletizadores · semana actual', desc: 'Carga de la semana en curso (domingo a sábado)', tipo: 'Planilla', url: 'https://docs.google.com/spreadsheets/d/1-9dYFnHDaTry5m8RWTq-Q3aPncazp9Oh2Hg--2mYH38/edit' },
+    { ico: '🗂', txt: 'Paletizadores · registro', desc: 'Todas las semanas cerradas (se archiva solo los domingos)', tipo: 'Planilla', url: 'https://docs.google.com/spreadsheets/d/1VKPvca1ItBmBzFAUz0yzOQtcGCUUG8qCNSeCf1D60Eo/edit' },
     { ico: '📒', txt: 'Registro de producciones VF', desc: 'Reportes y tiempos muertos semanales', tipo: 'Planilla', url: 'https://docs.google.com/spreadsheets/d/1E6kRn0kjyYuxSfkcAMVkdqb_D_Ku_9lnMvS2VKOvCKk/edit?gid=501651869#gid=501651869' }
   ] },
   { titulo: 'Worknet', nota: 'se abre en esta PC con tu usuario', accesos: [
@@ -202,13 +197,12 @@ const SECTORES = [
     { ico: '⚡', txt: 'Stock VFI + VC9 (Excel)', desc: 'Descarga rápida del último informe', tipo: 'Descarga', url: 'https://drive.google.com/uc?export=download&id=1Be0LAlmzwxFenXLhkr1_QvUG0TBQXlLd' },
     { ico: '⚡', txt: 'Pendientes de entrega (Excel)', desc: 'Descarga rápida del último informe', tipo: 'Descarga', url: 'https://drive.google.com/uc?export=download&id=1rEYkyso-e1iAHdmB3_1LAXVl23UEHu1p' },
     { ico: '🧮', txt: 'Necesidad de compra', desc: 'Excel generado con los datos actuales', tipo: 'Web', url: 'https://script.google.com/macros/s/AKfycbzF_fLUeM8nA9_DHqhVvbk6fGQsjvGlmqhdyVyu5S0rc1t2d2Oku8Lqdsk3hIunx7NY/exec' },
-    { ico: '📦', txt: 'Stock e insumos a comprar (Blue Ship)', desc: 'Por tipo de insumo, con OC pendientes y vencidas', tipo: 'Web', url: BLUE_SHIP + '?vista=stock' },
     { ico: '📝', txt: 'Solicitud de compra', desc: 'Próximamente', tipo: '—' },
     { ico: '🔎', txt: 'Consulta de OC', desc: 'Próximamente', tipo: '—' }
   ] },
   { titulo: 'Calidad', nota: '', accesos: [
     { ico: '🧪', txt: 'Ficha técnica (WebInfo)', desc: 'Escribí el código arriba y tocá “Ficha WebInfo”', tipo: 'WebInfo', accion: 'foco' },
-    { ico: '📈', txt: 'Performance', desc: 'Próximamente', tipo: '—' }
+    { ico: '🗂', txt: 'Registro de Performance', desc: 'Todas las performance guardadas · un renglón por versión, con link al PDF', tipo: 'Planilla', url: 'https://docs.google.com/spreadsheets/d/1xOjGWFHh4xU2CHGw2Tba5o_czHOwdZXEaxGKJFaDVLc/edit' }
   ] }
 ];
 /* ================================================================================================ */
@@ -232,12 +226,10 @@ function accion(tipo) {
   if (!c) { $('q').focus(); $('q').placeholder = 'Primero escribí un código, OP, pedido o producto'; return; }
   if (tipo === 'worknet') abrirProtocolo('worknetficha://' + encodeURIComponent(c), 'Abriendo ficha', c + ' · Worknet se abre en esta PC. Si no pasa nada, instalá Blue Ship en esta PC (ver abajo).');
   if (tipo === 'webinfo') window.open(FICHA_WEBINFO + encodeURIComponent(c), '_blank', 'noopener');
-  if (tipo === 'blueship') window.open(BLUE_SHIP + '?q=' + encodeURIComponent(c), '_blank', 'noopener');
 }
 
-// Blue Ship
-$('bs-abrir').href = BLUE_SHIP;
-BLUE_SHIP_PANTALLAS.forEach(p => $('bs-rapidos').appendChild(el('a', { href: BLUE_SHIP + '?vista=' + p.vista, target: '_blank', rel: 'noopener' }, [el('span', { 'aria-hidden': 'true', texto: p.ico }), p.txt])));
+// Portal completo (cuentas @catenazapata.com)
+$('bs-abrir').href = PORTAL_COMPLETO;
 
 // sectores
 SECTORES.forEach(s => {
@@ -257,7 +249,7 @@ SECTORES.forEach(s => {
 });
 
 document.querySelectorAll('[data-accion]').forEach(b => b.addEventListener('click', () => accion(b.dataset.accion)));
-$('q').addEventListener('keydown', e => { if (e.key === 'Enter') accion('blueship'); });
+$('q').addEventListener('keydown', e => { if (e.key === 'Enter') accion('webinfo'); });
 $('overlay').addEventListener('click', () => $('overlay').classList.remove('activo'));
 function reloj() { const d = new Date(); $('reloj').textContent = d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' }) + ' · ' + d.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }); }
 reloj(); setInterval(reloj, 30000);
